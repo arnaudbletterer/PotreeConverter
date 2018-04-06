@@ -36,11 +36,11 @@ using std::map;
 namespace Potree{
 
 /**
- *   y 
+ *   y
  *   |-z
  *   |/
  *   O----x
- *    
+ *
  *   3----7
  *  /|   /|
  * 2----6 |
@@ -78,11 +78,11 @@ AABB childAABB(const AABB &aabb, const int &index){
 
 
 /**
- *   y 
+ *   y
  *   |-z
  *   |/
  *   O----x
- *    
+ *
  *   3----7
  *  /|   /|
  * 2----6 |
@@ -108,9 +108,9 @@ int nodeIndex(const AABB &aabb, const Point &point){
  * from http://stackoverflow.com/questions/5840148/how-can-i-get-a-files-size-in-c
  */
 long filesize(string filename){
-    struct stat stat_buf;
-    int rc = stat(filename.c_str(), &stat_buf);
-    return rc == 0 ? stat_buf.st_size : -1;
+	struct stat stat_buf;
+	int rc = stat(filename.c_str(), &stat_buf);
+	return rc == 0 ? stat_buf.st_size : -1;
 }
 
 
@@ -138,47 +138,47 @@ string toUpper(string str){
 
 // http://stackoverflow.com/questions/8593608/how-can-i-copy-a-directory-using-boost-filesystem
 bool copyDir(fs::path source, fs::path destination){
-	
-    try{
-        // Check whether the function call is valid
-        if(!fs::exists(source) || !fs::is_directory(source) ) {
-            std::cerr << "Source directory " << source.string() << " does not exist or is not a directory." << '\n';
-            return false;
-        }
-        //if(fs::exists(destination)){
-        //    std::cerr << "Destination directory " << destination.string()
-        //        << " already exists." << '\n';
-        //    return false;
-        //}
-        // Create the destination directory
+
+	try{
+		// Check whether the function call is valid
+		if(!fs::exists(source) || !fs::is_directory(source) ) {
+			std::cerr << "Source directory " << source.string() << " does not exist or is not a directory." << '\n';
+			return false;
+		}
+		//if(fs::exists(destination)){
+		//    std::cerr << "Destination directory " << destination.string()
+		//        << " already exists." << '\n';
+		//    return false;
+		//}
+		// Create the destination directory
 		if(!fs::exists(destination)){
 			if(!fs::create_directory(destination)){
 				std::cerr << "Unable to create destination directory" << destination.string() << '\n';
 				return false;
 			}
 		}
-    }catch(fs::filesystem_error const & e){
-        std::cerr << e.what() << '\n';
-        return false;
-    }
-    // Iterate through the source directory
-    for( fs::directory_iterator file(source); file != fs::directory_iterator(); ++file){
-        try{
-            fs::path current(file->path());
-            if(fs::is_directory(current)) {
-                // Found directory: Recursion
-                if(!copyDir(current, destination / current.filename())){
-                    return false;
-                }
-            }else{
-                // Found file: Copy
+	}catch(fs::filesystem_error const & e){
+		std::cerr << e.what() << '\n';
+		return false;
+	}
+	// Iterate through the source directory
+	for( fs::directory_iterator file(source); file != fs::directory_iterator(); ++file){
+		try{
+			fs::path current(file->path());
+			if(fs::is_directory(current)) {
+				// Found directory: Recursion
+				if(!copyDir(current, destination / current.filename())){
+					return false;
+				}
+			}else{
+				// Found file: Copy
 				fs::copy_file(current, destination / current.filename(), fs::copy_options::overwrite_existing);
-            }
-        }catch(fs::filesystem_error const & e){
-            std:: cerr << e.what() << '\n';
-        }
-    }
-    return true;
+			}
+		}catch(fs::filesystem_error const & e){
+			std:: cerr << e.what() << '\n';
+		}
+	}
+	return true;
 }
 
 
@@ -268,7 +268,8 @@ vector<string> split(string str, vector<char> delimiters) {
 }
 
 vector<string> split(string str, char delimiter) {
-	return split(str, { delimiter });
+	std::vector<char> vec = {delimiter};
+	return split(str, vec);
 }
 
 // see https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
